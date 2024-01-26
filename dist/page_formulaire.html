@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulaire de génération de ticket</title>
+    <style src="style.css"></style>
+        <script defer="defer" src="bundle.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Génération de ticket</h1>
+        <div class="form-group">
+            <label for="ticketId">ID du ticket :</label>
+            <input type="text" id="ticketId" required>
+        </div>
+        <div class="form-group">
+            <label for="firstName">Prénom :</label>
+            <input type="text" id="firstName" required>
+        </div>
+        <div class="form-group">
+            <label for="phoneNumber">Numéro de téléphone :</label>
+            <input type="tel" id="phoneNumber" value="229" pattern="[0-9]+" title="Entrez des chiffres seulement" required>
+        </div>
+        <div class="form-group">
+            <label for="gender">Sexe :</label>
+            <select id="gender" required>
+                <option value="M">Masculin</option>
+                <option value="F">Féminin</option>
+            </select>
+        </div>
+        <button class="button" id="validateButton">Valider</button>
+        <button class="button" onclick="goToHomerPage()">Retour à l'accueil</button>
+        <div id="qrCode"></div>
+    </div>
+</body>
+</html>

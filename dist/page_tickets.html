@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+</head>
+<script defer="defer" src="bundle.js"></script>
+<style src="style.css"></style>
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tickets générés</title>
+</head>
+<body>
+<div class="ticket-container">
+<h1>Tickets générés</h1>
+<div class="ticket-image-container">
+<img class="ticket-image" src="tickets.png" alt="Nouveau ticket">
+<div id="qrCode"></div>
+</div>
+
+<div class="button-container">
+<button class="button" onclick="saveTicket()">Sauvegarder</button>
+<button class="button" onclick="shareTicket()">Partager via WhatsApp</button>
+<button class="button" onclick="goToHomePage()">Nouveau Ticket</button>
+<button class="button" onclick="showHistory()">Historique des tickets</button>
+</div>
+</div>
+
+</body>
+</html>

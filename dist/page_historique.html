@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script defer="defer" src="bundle.js"></script>
+  <style src="style.css"></style>
+  <title>Historique des tickets</title>
+</head>
+<body>
+  <div class="container">
+    <h1>Historique des tickets</h1>
+    <input type="text" class="search-bar" placeholder="Rechercher par ID, nom, prénom ou numéro de téléphone">
+    <div class="table-container">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Prénom</th>
+            <th>Numéro de téléphone</th>
+            <th>Sexe</th>
+            <th>Ticket</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Les données de l'historique seront générées dynamiquement ici -->
+        </tbody>
+      </table>
+      <div class="button-container">
+    <button class="button" onclick="exportToCSV()">Exporter en CSV</button>
+    <button class="button" onclick="exportToPDF()">Exporter en PDF</button>
+    <button class="button" onclick="goToHomerPage()">Retour à l'accueil</button>
+  </div>
+</body>
+</html>

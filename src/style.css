@@ -1,0 +1,90 @@
+/* src/style.css */
+body {
+    font-family: Arial, sans-serif;
+  }
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+  .button {
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    font-size: 18px;
+  }
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+  }
+  .form-group label {
+    font-weight: bold;
+  }
+  .form-group input,
+  .form-group select {
+    margin-top: 5px;
+    padding: 5px;
+    font-size: 16px;
+  }
+  .button {
+    padding: 10px 20px;
+    margin-top: 20px;
+    font-size: 18px;
+  }
+  body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    align-items: center;
+     justify-content: center;
+    height: 100vh;
+    margin: 0;
+    }
+    .ticket-container {
+     text-align: center;
+    }
+    .ticket-image-container {
+    position: relative;
+    }
+    .ticket-image {
+    width: 100%;
+    height: auto;
+    }
+    #qrCode {
+        position: absolute;
+        bottom: 53%; /* ajustez la position verticale en pourcentage par rapport à la hauteur de l'image */
+        left: 35%; /* ajustez la position horizontale en pourcentage par rapport à la largeur de l'image */
+        width: 20%; /* ajustez la largeur en pourcentage par rapport à la largeur de l'image */
+        height:  20%; /* ajustez la hauteur en pourcentage par rapport à la hauteur de l'image */
+    }
+    .button-container {
+     margin-top: 20px;
+    }
+    .button {
+    padding: 10px 20px;
+    margin-right: 10px;
+    font-size: 16px;
+    }
+    .search-bar {
+      margin-bottom: 20px;
+    }
+    .table-container {
+      width: 80%;
+    }
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .table th,
+    .table td {
+      padding: 10px;
+      text-align: left;
+    }
+    .table th {
+      background-color: #f2f2f2;
+    }
+    .button {
+      padding: 10px 20px;
+      font-size: 18px;
+    }
