@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "install": "npm install",
     "build": "webpack --mode production",
     "start": "webpack serve --mode development --open"
   },
@@ -20,6 +21,7 @@
     "webpack-dev-server": "^4.15.1"
   },
   "dependencies": {
+    "chmod": "^0.2.1",
     "firebase": "^10.7.2",
     "html2canvas": "^1.4.1",
     "qrcode": "^1.5.3"
