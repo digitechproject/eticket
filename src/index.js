@@ -251,10 +251,11 @@ function saveTicket() {
     });
 }
  function shareTicket() {
+    saveTicket();
      html2canvas(document.querySelector(".ticket-image-container")).then(canvas => {
         var urlParams = new URLSearchParams(window.location.search);
         var phoneNumber = urlParams.get("phoneNumber");
-        var shareLink = "whatsapp://send?text=" + encodeURIComponent(canvas.toDataURL()) + "&phone=" + phoneNumber;
+        var shareLink = "https://wa.me/" + phoneNumber + "?text=ci%20joint%20votre%20pass";
         window.open(shareLink);
       }); }
 
