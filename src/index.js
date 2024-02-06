@@ -195,7 +195,7 @@ function generateTicket(ticketId, firstName, phoneNumber, gender) {
             height: size,
             colorDark: "#000000",
             colorLight: "#ffffff",
-            margin: 1,
+            margin: 0.5,
             errorCorrectionLevel: 'H' // Niveau de correction d'erreur
         }, function (err, url) {
             if (err) {
@@ -218,7 +218,7 @@ function generateTicket(ticketId, firstName, phoneNumber, gender) {
 
     // Déclencher la génération du QR code une fois que l'image du ticket est chargée
     ticketImage.onload = function() {
-        var qrCodeSize = Math.min(ticketImage.clientWidth, ticketImage.clientHeight) * 0.35;
+        var qrCodeSize = Math.min(ticketImage.clientWidth, ticketImage.clientHeight) * 0.31;
         generateQRCode(qrCodeSize);
     };
 
