@@ -1,11 +1,11 @@
 // src/index.js
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, addDoc, getDocs,  query, where, orderBy } from "firebase/firestore";
+import { getFirestore, collection, addDoc, getDocs,  query, where, orderBy, limit } from "firebase/firestore";
 import './style.css';
 import './qrcode.js';
 import QRCode from 'qrcode';
 import html2canvas from 'html2canvas';
-
+import jsPDF from 'jspdf';
 
 const firebaseConfig = {
   apiKey: "AIzaSyAd4-LlGsIDg3MrGNiQwGwH9ZuYe-rqpoU",
@@ -41,6 +41,7 @@ if (window.location.pathname.endsWith('page_formulaire.html')) {
     window.addEventListener('beforeunload', beforeUnloadHandler);
 
     document.addEventListener('DOMContentLoaded', () => {
+        setNextTicketId();
         resetFormFields();
         const validateButton = document.getElementById('validateButton');
         if (validateButton) {
@@ -53,6 +54,33 @@ if (window.location.pathname.endsWith('page_formulaire.html')) {
         } else {
             console.error("L'élément 'validateButton' n'existe pas !");
         }
+    });
+}
+function setNextTicketId() {
+    const db = getFirestore(app);
+    const ticketsRef = collection(db, "tickets");
+    const queryLastTicket = query(ticketsRef, orderBy("ticketId", "desc"), limit(1));
+
+    getDocs(queryLastTicket)
+    .then((querySnapshot) => {
+        let nextTicketId = 1; // Commencez à 1 si aucune entrée n'est trouvée
+
+        if (!querySnapshot.empty) {
+            // Récupérer le dernier ticketId et l'incrémenter de 1
+            const lastTicket = querySnapshot.docs[0].data();
+            const lastTicketIdNumber = Number(lastTicket.ticketId); // Convertir en nombre
+            nextTicketId = lastTicketIdNumber + 1;
+        }
+
+        // Remplir le champ ticketId avec le prochain numéro
+        const ticketIdField = document.getElementById('ticketId');
+        ticketIdField.value = nextTicketId;
+
+        // Rendre le champ non modifiable
+        ticketIdField.setAttribute('readonly', true);
+    })
+    .catch((error) => {
+        console.error("Erreur lors de la récupération du dernier ticketId : ", error);
     });
 }
 function resetFormFields() {
@@ -155,53 +183,71 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-   function generateTicket(ticketId, firstName, phoneNumber, gender) {
+   //Modifiez la fonction generateTicket pour attendre que l'image du ticket soit chargée
+function generateTicket(ticketId, firstName, phoneNumber, gender) {
     var qrCodeContent = ticketId + "-" + firstName + "-" + phoneNumber + "-" + gender;
     var ticketImage = document.querySelector(".ticket-image");
     var qrCodeContainer = document.getElementById("qrCode");
 
-    // Taille du QR code en fonction de celle de l'image
-    var qrCodeSize = Math.min(ticketImage.clientWidth, ticketImage.clientHeight) * 0.35;
+    var generateQRCode = function(size) {
+        QRCode.toDataURL(qrCodeContent, {
+            width: size,
+            height: size,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            margin: 1,
+            errorCorrectionLevel: 'H' // Niveau de correction d'erreur
+        }, function (err, url) {
+            if (err) {
+                console.error("Erreur lors de la génération du code QR : ", err);
+                alert("Une erreur est survenue lors de la génération du code QR. Veuillez réessayer.");
+            } else {
+                // Créer un nouvel élément img pour le QR code
+                var qrCodeImage = new Image();
+                qrCodeImage.src = url;
+                qrCodeImage.alt = "QR Code";
+                qrCodeImage.width = size;
+                qrCodeImage.height = size;
 
-    // Effacer le contenu précédent
-    qrCodeContainer.innerHTML = '';
+                // Nettoyer les contenus précédents et ajouter l'image générée
+                qrCodeContainer.innerHTML = '';
+                qrCodeContainer.appendChild(qrCodeImage);
+            }
+        });
+    };
 
-    // Générer le code QR et l'ajouter à l'élément container
-    QRCode.toDataURL(qrCodeContent, {
-        width: qrCodeSize,
-        height: qrCodeSize,
-        margin:1,
-    }, function (err, url) {
-        if (err) {
-            console.error("Erreur lors de la génération du code QR : ", err);
-            alert("Une erreur est survenue lors de la génération du code QR. Veuillez réessayer.");
-            return;
-        }
+    // Déclencher la génération du QR code une fois que l'image du ticket est chargée
+    ticketImage.onload = function() {
+        var qrCodeSize = Math.min(ticketImage.clientWidth, ticketImage.clientHeight) * 0.35;
+        generateQRCode(qrCodeSize);
+    };
 
-        // Créer un élément img et définir l'URL du code QR comme source
-        var img = document.createElement('img');
-        img.src = url;
-        // Ajouter l'image à l'élément conteneur
-        qrCodeContainer.appendChild(img);
-    });
+    // Si l'image du ticket est déjà chargée (en cache), déclencher manuellement l'event onload
+    if (ticketImage.complete) {
+        ticketImage.onload();
+    } else {
+        // Définir la source de l'image ici si nécessaire
+        // ticketImage.src = 'chemin/vers/l-image-du-ticket.png';
+    }
 }
-if (window.location.pathname.endsWith('page_tickets.html')) {
-    window.addEventListener('beforeunload', function (e) {
-        // Annuler l'événement par défaut
-        e.preventDefault();
-        // Chrome requiert également returnValue à être défini
-        e.returnValue = '';
-    });
-}
+
+// Modifiez la fonction saveTicket pour enregistrer au format PDF
 function saveTicket() {
     html2canvas(document.querySelector(".ticket-image-container")).then(canvas => {
-      var downloadLink = document.createElement("a");
-      var urlParams = new URLSearchParams(window.location.search);
-      var ticketId = urlParams.get("id");
-      var firstName = urlParams.get("firstName");
-      downloadLink.href = canvas.toDataURL();
-      downloadLink.download = ticketId + "-" + firstName + ".png";
-      downloadLink.click();
+        var imgData = canvas.toDataURL('image/jpeg', 1.0);
+        var pdf = new jsPDF({
+            orientation: 'landscape',
+            unit: 'px',
+            format: [canvas.width, canvas.height]
+        });
+        
+        pdf.addImage(imgData, 'JPEG', 0, 0, canvas.width, canvas.height);
+        
+        var urlParams = new URLSearchParams(window.location.search);
+        var ticketId = urlParams.get("id");
+        var firstName = urlParams.get("firstName");
+        
+        pdf.save(ticketId + "-" + firstName + ".pdf");
     });
 }
  function shareTicket() {
@@ -286,3 +332,4 @@ window.exportToCSV = exportToCSV;
 window.exportToPDF = exportToPDF;
 window.goToHomerPage = goToHomerPage;
 window.redirectToTicket = redirectToTicket;
+window.setNextTicketId = setNextTicketId;

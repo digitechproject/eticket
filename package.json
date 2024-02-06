@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack --mode production",
     "start": "webpack serve --mode development --open"
-  },  
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -22,6 +22,7 @@
     "chmod": "^0.2.1",
     "firebase": "^10.7.2",
     "html2canvas": "^1.4.1",
+    "jspdf": "^2.5.1",
     "qrcode": "^1.5.3"
   }
 }

@@ -1,6 +1,11 @@
 /* src/style.css */
 body {
-    font-family: Arial, sans-serif;
+  font-family: Arial, sans-serif;
+  display: flex;
+  align-items: center;
+   justify-content: center;
+  height: 100vh;
+  margin: 0;
   }
   .container {
     display: flex;
@@ -24,23 +29,17 @@ body {
   }
   .form-group input,
   .form-group select {
-    margin-top: 5px;
-    padding: 5px;
+    margin-top: 3px;
+    padding: 10px;
     font-size: 16px;
+    
   }
   .button {
     padding: 10px 20px;
     margin-top: 20px;
     font-size: 18px;
   }
-  body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    align-items: center;
-     justify-content: center;
-    height: 100vh;
-    margin: 0;
-    }
+
     .ticket-container {
      text-align: center;
     }
