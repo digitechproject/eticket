@@ -79,7 +79,7 @@ function setNextTicketId() {
         ticketIdField.value = nextTicketId;
 
         // Rendre le champ non modifiable
-        //ticketIdField.setAttribute('readonly', true);
+        ticketIdField.setAttribute('readonly', true);
     })
     .catch((error) => {
         console.error("Erreur lors de la récupération du dernier ticketId : ", error);
