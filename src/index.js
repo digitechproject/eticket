@@ -63,13 +63,15 @@ function setNextTicketId() {
 
     getDocs(queryLastTicket)
     .then((querySnapshot) => {
-        let nextTicketId = 1; // Commencez à 1 si aucune entrée n'est trouvée
+        let nextTicketId = "U24/01"; // Commencez par "U24/01" si aucune entrée n'est trouvée
 
         if (!querySnapshot.empty) {
-            // Récupérer le dernier ticketId et l'incrémenter de 1
+            // Récupérer le dernier ticketId et incrémenter la partie représentant le numéro du ticket
             const lastTicket = querySnapshot.docs[0].data();
-            const lastTicketIdNumber = Number(lastTicket.ticketId); // Convertir en nombre
-            nextTicketId = lastTicketIdNumber + 1;
+            const lastTicketId = lastTicket.ticketId;
+            const lastTicketNumber = Number(lastTicketId.split("/")[1]); // Extraire le numéro du ticket et convertir en nombre
+            const nextTicketNumber = lastTicketNumber + 1;
+            nextTicketId = "U24/" + String(nextTicketNumber).padStart(2, "0"); // Formatage du prochain ticketId
         }
 
         // Remplir le champ ticketId avec le prochain numéro
@@ -77,7 +79,7 @@ function setNextTicketId() {
         ticketIdField.value = nextTicketId;
 
         // Rendre le champ non modifiable
-        ticketIdField.setAttribute('readonly', true);
+        //ticketIdField.setAttribute('readonly', true);
     })
     .catch((error) => {
         console.error("Erreur lors de la récupération du dernier ticketId : ", error);
@@ -135,7 +137,7 @@ function resetFormFields() {
         const ticketsRef = collection(db, "tickets");
         
         // Créer une requête pour rechercher un ticket existant avec les mêmes informations
-        const queryTicket = query(ticketsRef, where("ticketId", "==", ticketId), where("firstName", "==", firstName), where("phoneNumber", "==", phoneNumber), where("gender", "==", gender));
+        const queryTicket = query(ticketsRef, where("firstName", "==", firstName), where("phoneNumber", "==", phoneNumber), where("gender", "==", gender));
         
         // Exécuter la requête
         getDocs(queryTicket)
