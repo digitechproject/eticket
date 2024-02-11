@@ -23,6 +23,7 @@
     "firebase": "^10.7.2",
     "html2canvas": "^1.4.1",
     "jspdf": "^2.5.1",
-    "qrcode": "^1.5.3"
+    "qrcode": "^1.5.3",
+    "qrcode-svg": "^1.1.0"
   }
 }

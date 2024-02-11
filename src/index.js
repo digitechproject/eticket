@@ -195,6 +195,8 @@ function generateTicket(ticketId, firstName, phoneNumber, gender) {
         QRCode.toDataURL(qrCodeContent, {
             width: size,
             height: size,
+            format: "svg",
+            Text: qrCodeContent,
             colorDark: "#000000",
             colorLight: "#ffffff",
             margin: 0.5,
@@ -220,7 +222,7 @@ function generateTicket(ticketId, firstName, phoneNumber, gender) {
 
     // Déclencher la génération du QR code une fois que l'image du ticket est chargée
     ticketImage.onload = function() {
-        var qrCodeSize = Math.min(ticketImage.clientWidth, ticketImage.clientHeight) * 0.31;
+        var qrCodeSize = Math.min(ticketImage.clientWidth, ticketImage.clientHeight) * 0.35;
         generateQRCode(qrCodeSize);
     };
 
@@ -232,6 +234,7 @@ function generateTicket(ticketId, firstName, phoneNumber, gender) {
         // ticketImage.src = 'chemin/vers/l-image-du-ticket.png';
     }
 }
+  
 
 // Modifiez la fonction saveTicket pour enregistrer au format PDF
 function saveTicket() {

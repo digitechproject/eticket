@@ -52,7 +52,7 @@ body {
     }
     #qrCode {
         position: absolute;
-        bottom: 42.45%; /* ajustez la position verticale en pourcentage par rapport à la hauteur de l'image */
+        bottom: 45.45%; /* ajustez la position verticale en pourcentage par rapport à la hauteur de l'image */
         left: 80.5%; /* ajustez la position horizontale en pourcentage par rapport à la largeur de l'image */
         width: 20%; /* ajustez la largeur en pourcentage par rapport à la largeur de l'image */
         height:  20%; /* ajustez la hauteur en pourcentage par rapport à la hauteur de l'image */
