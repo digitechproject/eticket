@@ -190,63 +190,75 @@ function generateTicket(ticketId, firstName, phoneNumber, gender) {
     var qrCodeContent = ticketId + "-" + firstName + "-" + phoneNumber + "-" + gender;
     var ticketImage = document.querySelector(".ticket-image");
     var qrCodeContainer = document.getElementById("qrCode");
-
-    var generateQRCode = function(size) {
-        QRCode.toDataURL(qrCodeContent, {
-            width: size,
-            height: size,
-            format: "svg",
-            Text: qrCodeContent,
-            colorDark: "#000000",
-            colorLight: "#ffffff",
-            margin: 0.5,
-            errorCorrectionLevel: 'H' // Niveau de correction d'erreur
-        }, function (err, url) {
-            if (err) {
-                console.error("Erreur lors de la génération du code QR : ", err);
-                alert("Une erreur est survenue lors de la génération du code QR. Veuillez réessayer.");
-            } else {
-                // Créer un nouvel élément img pour le QR code
-                var qrCodeImage = new Image();
-                qrCodeImage.src = url;
-                qrCodeImage.alt = "QR Code";
-                qrCodeImage.width = size;
-                qrCodeImage.height = size;
-
-                // Nettoyer les contenus précédents et ajouter l'image générée
-                qrCodeContainer.innerHTML = '';
-                qrCodeContainer.appendChild(qrCodeImage);
-            }
-        });
-    };
-
-    // Déclencher la génération du QR code une fois que l'image du ticket est chargée
-    ticketImage.onload = function() {
-        var qrCodeSize = Math.min(ticketImage.clientWidth, ticketImage.clientHeight) * 0.35;
-        generateQRCode(qrCodeSize);
-    };
-
-    // Si l'image du ticket est déjà chargée (en cache), déclencher manuellement l'event onload
-    if (ticketImage.complete) {
-        ticketImage.onload();
-    } else {
-        // Définir la source de l'image ici si nécessaire
-        // ticketImage.src = 'chemin/vers/l-image-du-ticket.png';
-    }
-}
   
-
+    async function generateQRCode(size) {
+      try {
+        QRCode.toString(qrCodeContent, {
+          width: size,
+          height: size,
+          type: "svg",
+          text: qrCodeContent, // "Text" should be "text"
+          colorDark: "#000000",
+          colorLight: "#ffffff",
+          margin: 0.5,
+          errorCorrectionLevel: "H",
+        }, async function (err, url) {
+          if (err) {
+            throw err;
+          } else {
+            console.log("URL du code QR : ", url);
+  
+            // Encodage Base64 asynchrone imbriqué
+            const urlBase64 = await (async function(url) {
+              return new Promise((resolve, reject) => {
+                const b64encoded = btoa(url);
+                resolve(b64encoded);
+              });
+            })(url);
+            console.log("URL Base64 du code QR : ", urlBase64);
+  
+            // Afficher l'image du code QR
+            const qrCodeImage = new Image();
+            qrCodeImage.src = `data:image/svg+xml;base64,${urlBase64}`;
+            qrCodeImage.alt = "QR Code";
+            qrCodeImage.width = size;
+            qrCodeImage.height = size;
+  
+            // Nettoyer les contenus précédents et ajouter l'image générée
+            qrCodeContainer.innerHTML = "";
+            qrCodeContainer.appendChild(qrCodeImage);
+          }
+        });
+      } catch (err) {
+        console.error("Erreur lors de la génération du code QR : ", err);
+        alert("Une erreur est survenue lors de la génération du code QR. Veuillez réessayer.");
+      }
+    }
+  
+    ticketImage.onload = function () {
+      var qrCodeSize = Math.min(ticketImage.clientWidth, ticketImage.clientHeight) * 0.31;
+      generateQRCode(qrCodeSize);
+    };
+  
+    if (ticketImage.complete) {
+      ticketImage.onload();
+    } else {
+      // Set the image source here if necessary
+      // ticketImage.src = 'chemin/vers/l-image-du-ticket.png';
+    }
+  }
+  
 // Modifiez la fonction saveTicket pour enregistrer au format PDF
 function saveTicket() {
     html2canvas(document.querySelector(".ticket-image-container")).then(canvas => {
-        var imgData = canvas.toDataURL('image/jpeg', 1.0);
+        var imgData = canvas.toDataURL('image/png', 1.0);
         var pdf = new jsPDF({
-            orientation: 'landscape',
+            orientation: "landscape",
             unit: 'px',
             format: [canvas.width, canvas.height]
         });
         
-        pdf.addImage(imgData, 'JPEG', 0, 0, canvas.width, canvas.height);
+        pdf.addImage(imgData, 'png', 0, 0, canvas.width, canvas.height);
         
         var urlParams = new URLSearchParams(window.location.search);
         var ticketId = urlParams.get("id");
