@@ -7,31 +7,36 @@
     <link rel="stylesheet" href="style.css">
         <script defer="defer" src="bundle.js"></script>
 </head>
-<body>
-    <div class="container">
-        <h1>Génération de ticket</h1>
-        <div class="form-group">
-            <label for="ticketId">ID du ticket :</label>
-            <input type="text" id="ticketId" required>
-        </div>
-        <div class="form-group">
-            <label for="firstName">Prénom :</label>
-            <input type="text" value="" id="firstName" placeholder="votre prenom ici" required>
-        </div>
-        <div class="form-group">
-            <label for="phoneNumber">Numéro de téléphone :</label>
-            <input type="tel" id="phoneNumber" value="229" pattern="[0-9]+" title="Entrez des chiffres seulement" required>
-        </div>
-        <div class="form-group">
-            <label for="gender">Sexe :</label>
-            <select id="gender" required>
+<body class="formulaire-container">
+    <a onclick="goToHomerPage()" class="formulaire-navlink button">
+        <svg viewBox="0 0 1024 1024" class="formulaire-icon">
+          <path d="M512 128l342 256v512h-214v-298h-256v298h-214v-512z"></path>
+        </svg>
+      </a>
+    <div class="formulaire-container1">
+        <img alt="image" src="bgfrme.png" class="formulaire-image" />
+      </div>
+      <div class="formulaire-container2">
+        <span class="formulaire-text">
+          <span>Générer un</span>
+          <br />
+          <span>Tickets</span>
+        </span>
+      </div>
+      <img alt="image" src="lgobl.png" class="formulaire-image1" />
+
+    <form  class="formulaire-form">
+        <button type="submit" class="formulaire-button" id="validateButton">Creer le ticket</button>
+    
+            <input type="text" id="ticketId" required="true" class="formulaire-textinput"/> 
+            <input type="text" value="" id="firstName" placeholder="votre prenom ici" required="true" class="formulaire-textinput1"/>           
+            <input type="tel" id="phoneNumber" value="229" pattern="[0-9]+" title="Entrez des chiffres seulement" required="true" class="formulaire-textinput2"/>
+            <select id="gender" required="true" class="formulaire-select">
                 <option value="M">Masculin</option>
                 <option value="F">Féminin</option>
             </select>
-        </div>
-        <button class="button" id="validateButton">Valider</button>
-        <button class="button" onclick="goToHomerPage()">Retour à l'accueil</button>
+    </form>
         <div id="qrCode"></div>
-    </div>
+    
 </body>
 </html>
