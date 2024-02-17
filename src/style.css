@@ -145,20 +145,29 @@ body {
     }
     .button-container {
      margin-top: 20px;
+     position: absolute;
+  bottom: 0;
     }
     .button {
     padding: 10px 20px;
     margin-right: 10px;
     font-size: 16px;
     }
+    thead {
+      position: relative;
+      z-index: 1;
+     
+    }
     .search-bar {
       margin-bottom: 20px;
     }
     .table-container {
-      width: 80%;
+      height: 400px;
+      overflow-y: auto;
     }
     .table {
       width: 100%;
+      
       border-collapse: collapse;
     }
     .table th,
@@ -168,6 +177,10 @@ body {
     }
     .table th {
       background-color: #f2f2f2;
+    }
+    .tbody {
+      position: relative;
+      margin-top: 20px;
     }
     .button {
       padding: 10px 20px;
@@ -415,4 +428,29 @@ margin: auto;
   margin: auto;
   justify-content: center;
 } 
-  }
+
+table {
+  width: auto; /* Diminuer la largeur du tableau */
+  overflow: auto; /* Activer le défilement horizontal */
+}
+
+.table-container {
+  height: auto; /* Supprimer la hauteur fixe */
+  overflow: auto; /* Activer le défilement horizontal */
+  max-width: 1000px;
+}
+
+.button-container {
+  position: static; /* Retirer le positionnement absolu */
+  margin-top: 10px; /* Ajouter une marge supérieure */
+}
+
+/* Masquer les boutons non essentiels sur mobile */
+
+.table td {
+  display: table-cell; /* Conserver la disposition du tableau */
+  max-width: auto;
+  overflow-x: auto;
+}
+}
+  
